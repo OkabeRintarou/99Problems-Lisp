@@ -1,0 +1,12 @@
+(define (pack alist)
+  (if (null? alist)
+      null
+      (if (null? (cdr alist))
+          (list (list (car alist)))
+          (let ((pack-rest (pack (cdr alist))))
+            (if (eq? (car alist) (caar pack-rest))
+                (cons (append (list (car alist)) (car pack-rest))
+                      (cdr pack-rest))
+                (cons (list (car alist)) pack-rest))))))
+(define (run-length alist)
+  (map (lambda (x) (list (length x) (car x))) (pack alist)))

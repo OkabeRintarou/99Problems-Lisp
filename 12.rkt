@@ -1,0 +1,15 @@
+(define (decode encoded-list)
+  (define (to-list apair)
+    (define (pair-to-list apair result)
+      (if (= (car apair) 0)
+          result
+          (append (pair-to-list (list (- (car apair) 1) (cadr apair)) result)
+                  (cons (cadr apair) result))))
+    (if (not (pair? apair))
+        (list apair)
+        (pair-to-list apair null)))
+  (define (decode-iter encoded-list result)
+    (if (null? encoded-list)
+        result
+        (append (to-list (car encoded-list)) (decode-iter (cdr encoded-list) result))))
+  (decode-iter encoded-list null))

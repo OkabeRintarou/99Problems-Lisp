@@ -1,0 +1,17 @@
+(define (encode-direct alist)
+  (if (null? alist)
+      null
+      (if (null? (cdr alist))
+          alist
+          (if (null? (cddr alist))
+              (if (eq? (car alist) (cadr alist))
+                  (list (list 2 (car alist)))
+                  alist)
+              (let ((encode-rest (encode-direct (cdr alist))))
+                (if (pair? (car encode-rest))
+                    (if (eq? (car alist) (cadr (car encode-rest)))
+                        (append (list (list (+ 1 (caar encode-rest)) (car alist))) (cdr encode-rest))
+                        (append (list (car alist)) encode-rest))
+                    (if (eq? (car alist) (car encode-rest))
+                        (append (list (list 2 (car alist))) (cdr encode-rest))
+                        (cons (car alist) encode-rest))))))))

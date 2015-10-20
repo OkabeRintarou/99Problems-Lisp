@@ -1,0 +1,8 @@
+(define (split alist length)
+  (define (split-iter alist length first second)
+    (if (null? alist) 
+        (list first second)
+        (if (> length 0)
+            (split-iter (cdr alist) (- length 1) (append first (list (car alist))) second)
+            (split-iter (cdr alist) length first (append second (list (car alist)))))))
+  (split-iter alist length '() '()))

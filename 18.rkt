@@ -1,0 +1,10 @@
+(define (slice alist i k)
+  (define (slice-iter alist result cur)
+    (if (null? alist)
+        result
+        (slice-iter (cdr alist)
+                    (if (and (>= cur i) (<= cur k))
+                        (append result (list (car alist)))
+                        result)
+                    (+ cur 1))))
+  (slice-iter alist '() 1))
